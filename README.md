@@ -55,7 +55,7 @@ a screenshot of how it is added to unity.
 
 How you need to prepare your frontend will be explained in the section [Design your interface](#Design your interface)
 
-# Design your interface
+## Design your interface
 
 On clientside you are free to use your very own frontend design and implementation as web frontend for interacting with your application.
 From the base index.html file (located in Unity-WebRTC-Control/WebResources) or from [demo project]()s index.html you will need to add the referenced scripts your HTML file.
@@ -113,7 +113,7 @@ For debugging and troubleshooting tips also see section [Troubleshooting](#Troub
 
 From the above mentioned radioman webrtc solution also the javascript implementation acts as the base for the web frontend communication mechanism.
 
-# UnityWebRTCController
+### UnityWebRTCController
 
 Besides handling webrtc messages (sending and receiving) this class provides functionality for starting the message interpretation and conversion process, from browser to Unity and vice versa.
 After preparation a simple event system (based on Unitys default event system implementation) collects the registered events and uses a Dispatcher from [UnityToolbag](link to github unitytoolbag) to pass events, received from secondary threads, to Unity main thread. This happens inside Unitys Update cycle.
@@ -132,11 +132,13 @@ Adding the console-to-div.js file offers functionalty to log console.log message
 A div with id logger (<div id="logger"></div>) needs to be present on the DOM.
 Bear in mind that the logging to the div does not include extra objects sent to console.log. Add your data you want to visualize as string and append it to the message.
 
-### Included Libraries
+## Included Libraries
 
 - [Flex](https://github.com/statianzo/Fleck) - C# WebSocket implementation for the WebRTC signaling process (MIT License)
 - [LitJson](https://github.com/LitJSON/litjson) - JSON intepreter and converter for C# (UniLicense)
 - [WebRTC.NET](https://github.com/radioman/WebRtc.NET) - WebRTC implementation for C# (MIT License)
+
+Missing some .dll files? Check your global git ignore file if it blacklists dll libraries.
 
 # Support
 
@@ -144,7 +146,7 @@ You can always open an issue including a detailed description and steps to repro
 If you like this lib consider buying me a coffee :)
 [crypto address tba]
 
-## License
+# License
 
 MIT
 
