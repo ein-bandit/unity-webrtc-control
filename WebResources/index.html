@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Web Mobile Control</title>
+    <meta name="description" content="Web Mobile Control Sample" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
+    <style>
+      body {
+        background: darkgrey;
+      }
+      .mobile-web-control-sample {
+        width: 60%;
+        margin-left: 20%;
+        margin-right: 20%;
+      }
+      p {
+        padding: 20px;
+      }
+      #connect-btn.tapped,
+      #test-area.tapped {
+        background: rgba(255, 255, 255, 0.25);
+      }
+      #connect-btn,
+      #test-area {
+        margin: 0 auto;
+        width: fit-content;
+        padding: 10px;
+        margin-bottom: 25px;
+
+        border: 1px solid white;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: white;
+      }
+
+      #receiver {
+        margin: 0 auto;
+        width: 60%;
+        height: 120px;
+        border: 1px solid white;
+        word-break: break-all;
+      }
+
+      .hidden {
+        display: none;
+      }
+      #logger {
+        position: absolute;
+        bottom: 0;
+        height: 10%;
+        background: rgba(0, 0, 0, 0.25);
+      }
+      #feature-area {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        min-height: 50px;
+        margin-bottom: 25px;
+        pointer-events: none;
+        z-index: -1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="mobile-web-control-sample">
+      <p>Hi there!<br />Ready to create your own Mobile-Web-Controller ?</p>
+
+      <div id="connect-btn">
+        test connection
+      </div>
+      <div id="test-area" class="hidden">send test message</div>
+      <div id="receiver">no message received yet.</div>
+    </div>
+
+    <div id="feature-area"></div>
+    <div id="logger" class="hidden"></div>
+
+    <script src="config.js"></script>
+
+    <script src="NoSleep.js"></script>
+    <script src="adapter.js"></script>
+    <script src="webrtc.js"></script>
+    <script src="ice-services.js"></script>
+    <script src="feature-detection.js"></script>
+    <script src="console-to-div.js"></script>
+    <script src="mobile-web-control.js"></script>
+    <script>
+      var connectBtn = document.getElementById("connect-btn");
+      var receiver = document.getElementById("receiver");
+      var testarea = document.getElementById("test-area");
+
+      connectBtn.onclick = function() {
+        uwc.connectClient();
+        connectBtn.classList.add("tapped");
+        setTimeout(() => {
+          connectBtn.classList.remove("tapped");
+        }, 250);
+      };
+      //when connection is successfully established, enable test area to send message.
+      clientActions.initialize = function() {
+        testarea.classList.remove("hidden");
+      };
+      //when a message is retrieved print it on screen.
+      clientActions.onMessage = function(message) {
+        receiver.innerHTML = JSON.stringify(message);
+      };
+    </script>
+  </body>
+</html>
