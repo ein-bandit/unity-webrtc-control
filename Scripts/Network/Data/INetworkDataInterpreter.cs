@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityWebRtCControl.Network.Data
+namespace UnityWebRTCCOntrol.Network.Data
 {
     //identifier (usually guid, but can be any comparable type)
     public interface INetworkDataInterpreter

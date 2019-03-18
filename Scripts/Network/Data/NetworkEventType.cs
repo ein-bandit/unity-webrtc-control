@@ -1,4 +1,4 @@
-namespace UnityWebRtCControl.Network.Data
+namespace UnityWebRTCCOntrol.Network.Data
 {
     public enum NetworkEventType
     {

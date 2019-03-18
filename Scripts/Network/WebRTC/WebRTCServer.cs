@@ -11,7 +11,7 @@ using LitJson;
 using System.Text;
 using UnityEngine;
 
-namespace UnityWebRtCControl.Network.WebRTC
+namespace UnityWebRTCCOntrol.Network.WebRTC
 {
     //from WebRTC.net-Staging project
     [Serializable]

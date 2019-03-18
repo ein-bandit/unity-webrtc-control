@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using UnityWebRtCControl.Network.Data;
-using UnityWebRtCControl.Network.WebServer;
-using UnityWebRtCControl.Network.WebRTC;
+using UnityWebRTCCOntrol.Network.Data;
+using UnityWebRTCCOntrol.Network.WebServer;
+using UnityWebRTCCOntrol.Network.WebRTC;
 
-namespace UnityWebRtCControl.Network
+namespace UnityWebRTCCOntrol.Network
 {
 
     //is unitys interface to actions on other threads (webserver, webrtcserver).

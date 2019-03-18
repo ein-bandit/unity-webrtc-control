@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityWebRtCControl.Network;
-using UnityWebRtCControl.Network.Data;
-using UnityWebRtCControl.Network.WebRTC;
-using UnityWebRtCControl.Network.WebServer;
+using UnityWebRTCCOntrol.Network;
+using UnityWebRTCCOntrol.Network.Data;
+using UnityWebRTCCOntrol.Network.WebRTC;
+using UnityWebRTCCOntrol.Network.WebServer;
 
-namespace UnityWebRtCControl
+namespace UnityWebRTCCOntrol
 {
     public abstract class AbstractUWCInitializer : MonoBehaviour
     {

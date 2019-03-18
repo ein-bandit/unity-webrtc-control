@@ -1,4 +1,4 @@
-﻿namespace UnityWebRtCControl.Network.WebServer
+﻿namespace UnityWebRTCCOntrol.Network.WebServer
 {
     public interface IWebServer
     {

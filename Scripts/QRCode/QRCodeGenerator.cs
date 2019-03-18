@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityWebRtCControl.Network;
+using UnityWebRTCCOntrol.Network;
 using ZXing;
 using ZXing.QrCode;
 
-namespace UnityWebRtCControl.QRCode
+namespace UnityWebRTCCOntrol.QRCode
 {
+    //originally from: https://medium.com/@adrian.n/reading-and-generating-qr-codes-with-c-in-unity-3d-the-easy-way-a25e1d85ba51
     public class QRCodeGenerator : MonoBehaviour
     {
         public int qRCodeWidth = 256;
@@ -15,28 +16,27 @@ namespace UnityWebRtCControl.QRCode
 
         public GameObject qRCodeArea;
 
-        private void Start()
+        public void GenerateQRCode()
         {
-            if (qRCodeArea)
+            if (!qRCodeArea)
             {
-                if (qRCodeArea.GetComponentInChildren<Image>())
-                {
-                    qRCodeArea.GetComponentInChildren<Image>().material.mainTexture = GenerateQRCode();
-                }
-                if (qRCodeArea.GetComponentInChildren<Text>())
-                {
-                    qRCodeArea.GetComponentInChildren<Text>().text = UWCController.Instance.webServerAddress;
-                }
+                Debug.LogError("A placeholder GameObject for printing the QR Code is not available.");
+                return;
+            }
+
+            string webServerAddress = UWCController.Instance.webServerAddress;
+            if (qRCodeArea.GetComponentInChildren<Image>())
+            {
+                qRCodeArea.GetComponentInChildren<Image>().material.mainTexture = GenerateQRCode(webServerAddress);
+            }
+            if (qRCodeArea.GetComponentInChildren<Text>())
+            {
+                qRCodeArea.GetComponentInChildren<Text>().text = webServerAddress;
             }
         }
-        public Texture2D GenerateQRCode()
-        {
-            return GenerateQRCode(UWCController.Instance.webServerAddress);
-        }
 
-        public Texture2D GenerateQRCode(string address)
+        private Texture2D GenerateQRCode(string address)
         {
-            Debug.Log($"generating QR Code for {address}");
             var encoded = new Texture2D(qRCodeWidth, qRCodeHeight);
             var color32 = Encode(address, encoded.width, encoded.height);
             encoded.SetPixels32(color32);
@@ -57,6 +57,5 @@ namespace UnityWebRtCControl.QRCode
             };
             return writer.Write(textForEncoding);
         }
-
     }
 }

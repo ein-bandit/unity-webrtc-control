@@ -79,7 +79,7 @@ var clientActions = {
 
 ... and you are ready to go.
 
-**_ Further customization _**
+## Further customization
 If you are willing to use your own Webserver and/or WebRTC implementation there is no need to inherit from AbstractUWCInitializer. You can call the static UWCController instance and it's Initialize method from anywhere else in your application and pass in your custom implementations.
 
 To use a custom servers you need to:
@@ -115,10 +115,18 @@ From the above mentioned radioman webrtc solution also the javascript implementa
 
 ### UnityWebRTCController
 
-Besides handling webrtc messages (sending and receiving) this class provides functionality for starting the message interpretation and conversion process, from browser to Unity and vice versa.
-After preparation a simple event system (based on Unitys default event system implementation) collects the registered events and uses a Dispatcher from [UnityToolbag](link to github unitytoolbag) to pass events, received from secondary threads, to Unity main thread. This happens inside Unitys Update cycle.
+Besides handling webrtc messages (sending and receiving) the static UWCController provides functionality for starting the message interpretation and conversion process, from browser to Unity and vice versa.
+After preparation of the message a simple event system (based on Unitys default event system implementation) collects the registered events and uses a Dispatcher from [UnityToolbag](link to github unitytoolbag) to pass events, received from secondary threads, to Unity main thread. This happens inside Unitys Update cycle.
+Sending messages is directly executed on Unitys main thread and guided through from the using application to WebRTCServer.
 
 When the Unity application is shut down, the UWCController requests a CleanUp (e.g. closing all threads) on the registered server instances and rejects further retrieved messages.
+
+### QRCodeGenerator
+
+This MonoBehaviour can be used to generate an easy accesible QR Code to connect your (mobile devices).
+To use it you have to place a GameObject to your scene which includes an Image and Text component.
+Make sure to call the QRCodeGenerator from a place where it is also accessible i.e. the correct scene it is placed on.
+Often it makes sense to generate the QRCode just after you initialized your UWCController.
 
 ## Troubleshooting
 

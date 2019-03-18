@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace UnityWebRtCControl.Network.WebServer
+namespace UnityWebRTCCOntrol.Network.WebServer
 {
     //inspired by: https://answers.unity.com/questions/1245582/create-a-simple-http-server-on-the-streaming-asset.html
     class SimpleHTTPServer : IWebServer
