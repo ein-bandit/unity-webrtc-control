@@ -13,7 +13,12 @@ using UnityEngine;
 
 namespace UnityWebRTCCOntrol.Network.WebRTC
 {
-    //from WebRTC.net-Staging project
+    /// <summary>
+    /// Handles signaling (using <see cref="Fleck.WebSocketServer"/>), connection establishment, sending and retrieving messages via WebRTC protocol.
+    /// <para>Retrieves string or byte[] messages from clients and passes them to <see cref="UWCController"/>.
+    /// Retrieves data to be distributed to a client from <see cref="UWCController"/>.
+    /// Implements the <see cref="IWebRTCServer"/> interface.</para>
+    /// </summary>
     [Serializable]
     public class WebRTCServer : IWebRTCServer
     {
@@ -47,14 +52,6 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
                 {
                     clientLimit = value;
                 }
-            }
-        }
-
-        public int ClientCount
-        {
-            get
-            {
-                return UserList.Count;
             }
         }
 
@@ -144,7 +141,12 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
                     break;
             }
         }
-
+        /// <summary>
+        /// Sets up the WebRTC connection by starting a new <see cref="System.Threading.Task"/>.
+        /// </summary>
+        /// <param name="session">Created session for the client.</param>
+        /// <param name="context">Context of the user connection.</param>
+        /// <param name="jsonMessage">Retrieved WebSocket message as Json.</param>
         private void SetupWebRTCConnection(WebRtcSession session, IWebSocketConnection context, JsonData jsonMessage)
         {
             using (ManualResetEvent manualResetEvent = new ManualResetEvent(false))
@@ -264,6 +266,9 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
             return Encoding.UTF8.GetBytes(data);
         }
 
+        /// <summary>
+        /// Cancles all connections to clients (WebRTC and WebSocket) and cleans up resources.
+        /// </summary>
         public void CloseConnection()
         {
             foreach (var s in Streams)

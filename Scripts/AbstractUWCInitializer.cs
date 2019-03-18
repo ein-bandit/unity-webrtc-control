@@ -9,6 +9,11 @@ using UnityWebRTCCOntrol.Network.WebServer;
 
 namespace UnityWebRTCCOntrol
 {
+    /// <summary>
+    /// Abstract Initializer as Unity singleton holding adjustable parameters for setting up the servers.
+    /// Offering a <see cref="Initialize()"/> method for setup and cleans initiates application cleanup 
+    /// (triggers IWebServer and IWebRTCServer clean up) on Unity application quit.
+    /// </summary>
     public abstract class AbstractUWCInitializer : MonoBehaviour
     {
         [Header("Default Server Configuration")]

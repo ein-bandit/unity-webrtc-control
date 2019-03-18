@@ -10,20 +10,23 @@ using UnityWebRTCCOntrol.Network.WebRTC;
 
 namespace UnityWebRTCCOntrol.Network
 {
-
-    //is unitys interface to actions on other threads (webserver, webrtcserver).
-    //uses an async event system to wait for unitys thread to be ready and dispatch the retrieved network events.
-
-    //put this script on a gameobject that is a singleton ie. has a class as singleton already.
-    //starts the server (which is on another thread) and registers callbacks.
-    //therefore events are collected and distributed in next update.
+    /// <summary>
+    /// UWCController is a Singelton functioning as Unitys interface to actions on other threads <see cref="IWebServer"/> <see cref="IWebRTCServer"/>.
+    /// Uses an async event system <see cref="NetworkDataDispatcher"> to send received events to Unitys main thread.
+    /// Offers methods for handling retrieved WebRTC messages and distributes application messages to <see cref="IWebRTCServer"/> implementation via the <c>Instance</c>.
+    /// Discards retrieved messages if clean up process was started.
+    /// </summary>
     public class UWCController
     {
+        /// <summary>
+        /// Holds the public connection string of <see cref="IWebServer">
+        /// </summary>
+        /// <value>Webserver address as string.</value>
         public string webServerAddress
         {
             get
             {
-                return webServer.GetPublicIPAddress();
+                return webServer.GetPublicConnectionString();
             }
         }
 
@@ -49,7 +52,13 @@ namespace UnityWebRTCCOntrol.Network
 
         private bool isAlive = false;
 
-        public void Initialize(IWebServer httpServer,
+        /// <summary>
+        /// Sets references to the used servers and network data interpreter.
+        /// </summary>
+        /// <param name="webServer">Used <see cref="IWebserver"> instance.</param>
+        /// <param name="webRTCServer">Used <see cref="IWebRTCServer"> instance.</param>
+        /// <param name="networkDataInterpreter">Used <see cref="InetworkDataInterpreter"> instance.</param>
+        public void Initialize(IWebServer webServer,
                                 IWebRTCServer webRTCServer,
                                 INetworkDataInterpreter networkDataInterpreter)
         {
@@ -60,7 +69,7 @@ namespace UnityWebRTCCOntrol.Network
                 return;
             };
 
-            this.webServer = httpServer;
+            this.webServer = webServer;
             this.webRTCServer = webRTCServer;
             this.interpreter = networkDataInterpreter;
 
@@ -97,6 +106,13 @@ namespace UnityWebRTCCOntrol.Network
             NetworkEventDispatcher.TriggerEvent(eventType, data);
         }
 
+        /// <summary>
+        /// Converts application messages via <see cref="INetworkDataInterpreter"> instance and 
+        /// passes converted message to <see cref="IWebRTCServer">.
+        /// </summary>
+        /// <param name="identifier">The identifier of the client</param>
+        /// <param name="type">Type of the application data to send.</param>
+        /// <param name="data">Data to be sent.</param>
         public void SendMessageToClient(IComparable identifier, System.Enum type, object data)
         {
             webRTCServer.SendWebRTCMessage(identifier, convertDataForSending(type, data));
@@ -107,6 +123,9 @@ namespace UnityWebRTCCOntrol.Network
             return interpreter.ConvertOutputDataToJson(type, data);
         }
 
+        /// <summary>
+        /// Triggers clean up of used server implementations and clears the <see cref="NetworkEventDispatcher"> event dictionary.
+        /// </summary>
         public void Cleanup()
         {
             isAlive = false;

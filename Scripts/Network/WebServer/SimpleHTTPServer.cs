@@ -7,7 +7,11 @@ using System.Threading;
 
 namespace UnityWebRTCCOntrol.Network.WebServer
 {
-    //inspired by: https://answers.unity.com/questions/1245582/create-a-simple-http-server-on-the-streaming-asset.html
+    /// <summary>
+    /// Serves files from the registered directories. 
+    /// If no specific file was requested index.html is served.
+    /// Implements the <see cref="IWebServer"/> interface.
+    /// </summary>
     class SimpleHTTPServer : IWebServer
     {
         private readonly string _indexFile = "index.html";
@@ -15,28 +19,34 @@ namespace UnityWebRTCCOntrol.Network.WebServer
         private static IDictionary<string, string> _mimeTypeMappings;
         private Thread _serverThread;
         private string _userDirectory;
-        private string _rootDirectory;
+        private string _baseDirectory;
         private HttpListener _listener;
 
         private int _port;
         private string _hostAddress;
 
+        private Uri _connectionString;
+
 
         /// <summary>
-        /// Construct server with given port.
-        /// </summary>
+        /// Construct webserver with given port and directory locations for web resources.
+        /// </summary> 
         /// <param name="userPath">Directory path to serve.</param>
-        /// <param name="rootPpath">Directory path to serve if not found in user path.</param>
+        /// <param name="basePath">Directory path to serve if file not found in user path.</param>
         /// <param name="port">Port of the server.</param>
-        public SimpleHTTPServer(string userPath, string rootPath, int port)
+        public SimpleHTTPServer(string userPath, string basePath, int port)
         {
-            this.Initialize(userPath, rootPath, port);
+            this.Initialize(userPath, basePath, port);
         }
 
         private void Listen()
         {
             _listener = new HttpListener();
-            _listener.Prefixes.Add("http://*:" + _port.ToString() + "/");
+#if UNITY_EDITOR
+            //add localhost uri prefix for development.
+            _listener.Prefixes.Add("http://localhost:" + _port + "/");
+#endif
+            _listener.Prefixes.Add(_connectionString.ToString());
             _listener.Start();
             while (true)
             {
@@ -57,15 +67,19 @@ namespace UnityWebRTCCOntrol.Network.WebServer
             }
         }
 
-        public string GetPublicIPAddress()
+        /// <summary>
+        /// Provides the public connection string in format scheme://host:port.
+        /// </summary>
+        /// <returns>returns the publicly accessible URI as string</returns>
+        public string GetPublicConnectionString()
         {
-            return "http://" + _hostAddress + ":" + _port;
+            return _connectionString.ToString();
         }
 
         private string GetPathToFile(string filename)
         {
             string userFilePath = Path.Combine(_userDirectory, filename);
-            string rootFilePath = Path.Combine(_rootDirectory, filename);
+            string rootFilePath = Path.Combine(_baseDirectory, filename);
 
             if (userFilePath.Length > filename.Length && File.Exists(userFilePath))
             {
@@ -116,7 +130,6 @@ namespace UnityWebRTCCOntrol.Network.WebServer
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     UnityEngine.Debug.Log(exception);
                 }
-
             }
             else
             {
@@ -128,23 +141,30 @@ namespace UnityWebRTCCOntrol.Network.WebServer
 
         private void Initialize(string userPath, string rootPath, int port)
         {
-            InitMimeTypeMappingsDictionary();
+            this.InitMimeTypeMappingsDictionary();
+
             this._userDirectory = userPath;
-            this._rootDirectory = rootPath;
+            this._baseDirectory = rootPath;
             this._port = port;
             this._hostAddress = FindIPAddress();
+            this._connectionString = new UriBuilder()
+            {
+                Scheme = Uri.UriSchemeHttp,
+                Host = _hostAddress,
+                Port = _port
+            }.Uri;
+
             _serverThread = new Thread(this.Listen);
             _serverThread.Start();
         }
 
         private string FindIPAddress()
         {
-            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress addr in localIPs)
+            foreach (IPAddress address in Dns.GetHostAddresses(Dns.GetHostName()))
             {
-                if (addr.AddressFamily == AddressFamily.InterNetwork)
+                if (address.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    return addr.ToString();
+                    return address.ToString();
                 }
             }
             //return localhost if no valid address found.

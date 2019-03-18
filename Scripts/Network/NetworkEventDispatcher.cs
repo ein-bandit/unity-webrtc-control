@@ -8,33 +8,37 @@ using UnityWebRTCCOntrol.Network.Data;
 
 namespace UnityWebRTCCOntrol.Network
 {
+    /// <summary>
+    /// Collects received messages as events in format <see cref="InputDataHolder"/>.
+    /// Uses <see cref="UnityToolbag.Dispatcher"> for passing events to Unitys main thread.
+    /// Offers static methods for registering and unregistering event handlers.
+    /// </summary>
     public class NetworkEventDispatcher
     {
-        //Runs on the Network Thread and collects events from 
-        //using Dispatcher.cs to wait for Unity Main Thread to execute Update. 
-        //using a special unityevent inside manager.
         private class AsyncEvent : UnityEvent<InputDataHolder> { }
 
         private Dictionary<NetworkEventType, AsyncEvent> eventDictionary;
 
-        private static NetworkEventDispatcher eventManager;
+        private static NetworkEventDispatcher networkEventDispatcher;
 
-        public static NetworkEventDispatcher instance
+        //Implements singleton pattern for internal usage, 
+        //public access is granted through static methods only.
+        private static NetworkEventDispatcher instance
         {
             get
             {
-                if (eventManager == null)
+                if (networkEventDispatcher == null)
                 {
-                    eventManager = new NetworkEventDispatcher();
+                    networkEventDispatcher = new NetworkEventDispatcher();
 
-                    eventManager.Init();
+                    networkEventDispatcher.InitializeEventDictionary();
                 }
 
-                return eventManager;
+                return networkEventDispatcher;
             }
         }
 
-        void Init()
+        private void InitializeEventDictionary()
         {
             if (eventDictionary == null)
             {
@@ -66,8 +70,13 @@ namespace UnityWebRTCCOntrol.Network
             }
         }
 
-        //trigger event is called from another thread when data is received.
-        //with the dispatcher triggerEvent waits for unity to be ready and sends all events on update immediately.
+        /// <summary>
+        /// This method is called from a WebRTC thread from <see cref="UWCController">. 
+        /// Uses <see cref="UnityToolbag.Dispatcher.InvokeAsync()"/> 
+        /// to wait for Unitys main thread to be ready before posting events.
+        /// </summary>
+        /// <param name="eventType">Type of the event.</param>
+        /// <param name="data">Converted input data from client.</param>
         public static void TriggerEvent(NetworkEventType eventType, InputDataHolder data)
         {
             AsyncEvent thisEvent = null;

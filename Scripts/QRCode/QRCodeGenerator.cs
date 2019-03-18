@@ -8,7 +8,11 @@ using ZXing.QrCode;
 
 namespace UnityWebRTCCOntrol.QRCode
 {
-    //originally from: https://medium.com/@adrian.n/reading-and-generating-qr-codes-with-c-in-unity-3d-the-easy-way-a25e1d85ba51
+    /// <summary>
+    /// Generates a QRCode of the connection string available from <see cref="UWCController">.
+    /// Relies on presence of a specially provided GameObject where the connection string as text
+    /// and the generated image can be set to.
+    /// </summary>
     public class QRCodeGenerator : MonoBehaviour
     {
         public int qRCodeWidth = 256;
@@ -16,6 +20,10 @@ namespace UnityWebRTCCOntrol.QRCode
 
         public GameObject qRCodeArea;
 
+        /// <summary>
+        /// Generates the QRCode and sets the connection string as text to <c>qRCodeArea</c> Gameobject.
+        /// Collects the connection from <see cref="UWCController">.
+        /// </summary>
         public void GenerateQRCode()
         {
             if (!qRCodeArea)

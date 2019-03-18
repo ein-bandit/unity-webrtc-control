@@ -2,7 +2,11 @@ using System;
 
 namespace UnityWebRTCCOntrol.Network.Data
 {
-    public class InputDataHolder
+    /// <summary>
+    /// Holds received input message data in a usable format for the application.
+    /// Property <c>type</c> usually refers to <see cref="InputDataType"/>.
+    /// </summary>
+    public struct InputDataHolder
     {
         public IComparable identifier;
 

@@ -1,5 +1,8 @@
 namespace UnityWebRTCCOntrol.Network.Data
 {
+    /// <summary>
+    /// Identifies which type of message was received.
+    /// </summary>
     public enum NetworkEventType
     {
         Register_Player,
