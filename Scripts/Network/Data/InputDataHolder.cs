@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityWebRTCCOntrol.Network.Data
+namespace UnityWebRTCControl.Network.Data
 {
     /// <summary>
     /// Holds received input message data in a usable format for the application.
@@ -10,7 +10,7 @@ namespace UnityWebRTCCOntrol.Network.Data
     {
         public IComparable identifier;
 
-        public System.Enum type;
+        public Enum type;
 
         public object data;
 

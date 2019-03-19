@@ -4,22 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using UnityWebRTCCOntrol.Network.Data;
-using UnityWebRTCCOntrol.Network.WebServer;
-using UnityWebRTCCOntrol.Network.WebRTC;
+using UnityWebRTCControl.Network.Data;
+using UnityWebRTCControl.Network.WebServer;
+using UnityWebRTCControl.Network.WebRTC;
 
-namespace UnityWebRTCCOntrol.Network
+namespace UnityWebRTCControl.Network
 {
     /// <summary>
     /// UWCController is a Singelton functioning as Unitys interface to actions on other threads <see cref="IWebServer"/> <see cref="IWebRTCServer"/>.
-    /// Uses an async event system <see cref="NetworkDataDispatcher"> to send received events to Unitys main thread.
+    /// Uses an async event system <see cref="NetworkDataDispatcher"/> to send received events to Unitys main thread.
     /// Offers methods for handling retrieved WebRTC messages and distributes application messages to <see cref="IWebRTCServer"/> implementation via the <c>Instance</c>.
     /// Discards retrieved messages if clean up process was started.
     /// </summary>
     public class UWCController
     {
         /// <summary>
-        /// Holds the public connection string of <see cref="IWebServer">
+        /// Holds the public connection string of <see cref="IWebServer"/>.
         /// </summary>
         /// <value>Webserver address as string.</value>
         public string webServerAddress
@@ -53,11 +53,11 @@ namespace UnityWebRTCCOntrol.Network
         private bool isAlive = false;
 
         /// <summary>
-        /// Sets references to the used servers and network data interpreter.
+        /// Sets local references to the used servers and network data interpreter.
         /// </summary>
-        /// <param name="webServer">Used <see cref="IWebserver"> instance.</param>
-        /// <param name="webRTCServer">Used <see cref="IWebRTCServer"> instance.</param>
-        /// <param name="networkDataInterpreter">Used <see cref="InetworkDataInterpreter"> instance.</param>
+        /// <param name="webServer">Used <see cref="IWebserver"/> instance.</param>
+        /// <param name="webRTCServer">Used <see cref="IWebRTCServer"/> instance.</param>
+        /// <param name="networkDataInterpreter">Used <see cref="InetworkDataInterpreter"/> instance.</param>
         public void Initialize(IWebServer webServer,
                                 IWebRTCServer webRTCServer,
                                 INetworkDataInterpreter networkDataInterpreter)
@@ -65,7 +65,7 @@ namespace UnityWebRTCCOntrol.Network
 
             if (isAlive)
             {
-                Debug.LogError("UnityWebRtCControl was already set up. Aborting initialization.");
+                Debug.LogError("UnityWebRTCControl already set up. Aborting initialization.");
                 return;
             };
 
@@ -102,13 +102,13 @@ namespace UnityWebRTCCOntrol.Network
 
         private void PassReceivedMessage(NetworkEventType eventType, InputDataHolder data)
         {
-            if (!isAlive) return;
+            if (!isAlive) { return; }
             NetworkEventDispatcher.TriggerEvent(eventType, data);
         }
 
         /// <summary>
-        /// Converts application messages via <see cref="INetworkDataInterpreter"> instance and 
-        /// passes converted message to <see cref="IWebRTCServer">.
+        /// Converts application messages via <see cref="INetworkDataInterpreter"/> instance and 
+        /// passes converted message to <see cref="IWebRTCServer"/>.
         /// </summary>
         /// <param name="identifier">The identifier of the client</param>
         /// <param name="type">Type of the application data to send.</param>
@@ -124,7 +124,7 @@ namespace UnityWebRTCCOntrol.Network
         }
 
         /// <summary>
-        /// Triggers clean up of used server implementations and clears the <see cref="NetworkEventDispatcher"> event dictionary.
+        /// Triggers clean up of used server implementations and clears the <see cref="NetworkEventDispatcher"/> event dictionary.
         /// </summary>
         public void Cleanup()
         {

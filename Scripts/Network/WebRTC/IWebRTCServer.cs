@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityWebRTCCOntrol.Network.WebRTC
+namespace UnityWebRTCControl.Network.WebRTC
 {
     /// <summary>
     /// Negotiates (signaling) and establishs a WebRTC connection with a client.

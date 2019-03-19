@@ -11,7 +11,7 @@ using LitJson;
 using System.Text;
 using UnityEngine;
 
-namespace UnityWebRTCCOntrol.Network.WebRTC
+namespace UnityWebRTCControl.Network.WebRTC
 {
     /// <summary>
     /// Handles signaling (using <see cref="Fleck.WebSocketServer"/>), connection establishment, sending and retrieving messages via WebRTC protocol.
@@ -31,7 +31,7 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
 
         private SendMode sendMode = SendMode.text;
 
-        private readonly string[] stunServers = {
+        private string[] stunServers = {
             "stun:stun.anyfirewall.com:3478",
             "stun:stun.stunprotocol.org:3478"
             };
@@ -61,6 +61,11 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
 
         public WebRTCServer(int port) : this("ws://0.0.0.0:" + port)
         {
+        }
+
+        public WebRTCServer(int port, string[] stunServers) : this("ws://0.0.0.0:" + port)
+        {
+            this.stunServers = stunServers;
         }
 
         public WebRTCServer(string URL)
@@ -106,9 +111,9 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
 
         private void OnReceive(IWebSocketConnection context, string message)
         {
-            if (!message.Contains("command")) return;
+            if (!message.Contains("command")) { return; }
 
-            if (!UserList.ContainsKey(context.ConnectionInfo.Id)) return;
+            if (!UserList.ContainsKey(context.ConnectionInfo.Id)) { return; }
 
             JsonData jsonMessage = JsonMapper.ToObject(message);
             string command = jsonMessage["command"].ToString();
@@ -162,8 +167,7 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
                             session.WebRtc.AddServerConfig(stunServer, string.Empty, string.Empty);
                         }
 
-                        bool success = session.WebRtc.InitializePeerConnection();
-                        if (success)
+                        if (session.WebRtc.InitializePeerConnection())
                         {
                             manualResetEvent.Set();
 
@@ -267,7 +271,7 @@ namespace UnityWebRTCCOntrol.Network.WebRTC
         }
 
         /// <summary>
-        /// Cancles all connections to clients (WebRTC and WebSocket) and cleans up resources.
+        /// Cancels all connections to clients (WebRTC and WebSocket) and cleans up resources.
         /// </summary>
         public void CloseConnection()
         {

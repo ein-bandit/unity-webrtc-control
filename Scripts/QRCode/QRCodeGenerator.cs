@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityWebRTCCOntrol.Network;
+using UnityWebRTCControl.Network;
 using ZXing;
 using ZXing.QrCode;
 
-namespace UnityWebRTCCOntrol.QRCode
+namespace UnityWebRTCControl.QRCode
 {
     /// <summary>
-    /// Generates a QRCode of the connection string available from <see cref="UWCController">.
+    /// Generates a QRCode of the connection string available from <see cref="UWCController"/>.
     /// Relies on presence of a specially provided GameObject where the connection string as text
     /// and the generated image can be set to.
     /// </summary>
@@ -22,7 +22,7 @@ namespace UnityWebRTCCOntrol.QRCode
 
         /// <summary>
         /// Generates the QRCode and sets the connection string as text to <c>qRCodeArea</c> Gameobject.
-        /// Collects the connection from <see cref="UWCController">.
+        /// Collects the connection from <see cref="UWCController"/>.
         /// </summary>
         public void GenerateQRCode()
         {

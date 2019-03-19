@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace UnityWebRTCCOntrol.Network.WebServer
+namespace UnityWebRTCControl.Network.WebServer
 {
     /// <summary>
     /// Serves files from the registered directories. 
@@ -14,18 +14,18 @@ namespace UnityWebRTCCOntrol.Network.WebServer
     /// </summary>
     class SimpleHTTPServer : IWebServer
     {
-        private readonly string _indexFile = "index.html";
+        private readonly string indexFile = "index.html";
 
-        private static IDictionary<string, string> _mimeTypeMappings;
-        private Thread _serverThread;
-        private string _userDirectory;
-        private string _baseDirectory;
-        private HttpListener _listener;
+        private static IDictionary<string, string> mimeTypeMappings;
+        private Thread serverThread;
+        private string userDirectory;
+        private string baseDirectory;
+        private HttpListener listener;
 
-        private int _port;
-        private string _hostAddress;
+        private int port;
+        private string hostAddress;
 
-        private Uri _connectionString;
+        private Uri connectionString;
 
 
         /// <summary>
@@ -41,18 +41,18 @@ namespace UnityWebRTCCOntrol.Network.WebServer
 
         private void Listen()
         {
-            _listener = new HttpListener();
+            listener = new HttpListener();
 #if UNITY_EDITOR
             //add localhost uri prefix for development.
-            _listener.Prefixes.Add("http://localhost:" + _port + "/");
+            listener.Prefixes.Add("http://localhost:" + port + "/");
 #endif
-            _listener.Prefixes.Add(_connectionString.ToString());
-            _listener.Start();
+            listener.Prefixes.Add(connectionString.ToString());
+            listener.Start();
             while (true)
             {
                 try
                 {
-                    HttpListenerContext context = _listener.GetContext();
+                    HttpListenerContext context = listener.GetContext();
                     Process(context);
                 }
                 catch (ThreadAbortException exception)
@@ -73,13 +73,13 @@ namespace UnityWebRTCCOntrol.Network.WebServer
         /// <returns>returns the publicly accessible URI as string</returns>
         public string GetPublicConnectionString()
         {
-            return _connectionString.ToString();
+            return connectionString.ToString();
         }
 
         private string GetPathToFile(string filename)
         {
-            string userFilePath = Path.Combine(_userDirectory, filename);
-            string rootFilePath = Path.Combine(_baseDirectory, filename);
+            string userFilePath = Path.Combine(userDirectory, filename);
+            string rootFilePath = Path.Combine(baseDirectory, filename);
 
             if (userFilePath.Length > filename.Length && File.Exists(userFilePath))
             {
@@ -98,7 +98,7 @@ namespace UnityWebRTCCOntrol.Network.WebServer
 
             if (string.IsNullOrEmpty(filename))
             {
-                filename = _indexFile;
+                filename = indexFile;
             }
 
             string pathToFile = GetPathToFile(filename);
@@ -112,7 +112,7 @@ namespace UnityWebRTCCOntrol.Network.WebServer
 
                     //Adding permanent http response headers
                     string mime;
-                    context.Response.ContentType = _mimeTypeMappings.TryGetValue(Path.GetExtension(pathToFile), out mime) ? mime : "application/octet-stream";
+                    context.Response.ContentType = mimeTypeMappings.TryGetValue(Path.GetExtension(pathToFile), out mime) ? mime : "application/octet-stream";
                     context.Response.ContentLength64 = input.Length;
                     context.Response.AddHeader("Date", DateTime.Now.ToString("r"));
                     context.Response.AddHeader("Last-Modified", System.IO.File.GetLastWriteTime(pathToFile).ToString("r"));
@@ -143,19 +143,19 @@ namespace UnityWebRTCCOntrol.Network.WebServer
         {
             this.InitMimeTypeMappingsDictionary();
 
-            this._userDirectory = userPath;
-            this._baseDirectory = rootPath;
-            this._port = port;
-            this._hostAddress = FindIPAddress();
-            this._connectionString = new UriBuilder()
+            this.userDirectory = userPath;
+            this.baseDirectory = rootPath;
+            this.port = port;
+            this.hostAddress = FindIPAddress();
+            this.connectionString = new UriBuilder()
             {
                 Scheme = Uri.UriSchemeHttp,
-                Host = _hostAddress,
-                Port = _port
+                Host = hostAddress,
+                Port = this.port
             }.Uri;
 
-            _serverThread = new Thread(this.Listen);
-            _serverThread.Start();
+            serverThread = new Thread(this.Listen);
+            serverThread.Start();
         }
 
         private string FindIPAddress()
@@ -173,13 +173,13 @@ namespace UnityWebRTCCOntrol.Network.WebServer
 
         public void CloseConnection()
         {
-            _listener.Stop();
-            _serverThread.Abort();
+            listener.Stop();
+            serverThread.Abort();
         }
 
         private void InitMimeTypeMappingsDictionary()
         {
-            _mimeTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
+            mimeTypeMappings = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
                      {
                              { ".asf", "video/x-ms-asf" },
                              { ".asx", "video/x-ms-asf" },

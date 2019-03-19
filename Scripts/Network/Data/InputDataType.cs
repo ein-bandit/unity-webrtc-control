@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityWebRTCCOntrol.Network.Data
+namespace UnityWebRTCControl.Network.Data
 {
     /// <summary>
     /// Available types of input data that can be interpreted by default.

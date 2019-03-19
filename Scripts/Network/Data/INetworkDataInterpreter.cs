@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityWebRTCCOntrol.Network.Data
+namespace UnityWebRTCControl.Network.Data
 {
     /// <summary>
     /// Interprets retrieved WebRTC message and converts it to <see cref="InputDataHolder"/> 

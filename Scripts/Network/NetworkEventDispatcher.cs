@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityToolbag;
-using UnityWebRTCCOntrol.Network.Data;
+using UnityWebRTCControl.Network.Data;
 
-namespace UnityWebRTCCOntrol.Network
+namespace UnityWebRTCControl.Network
 {
     /// <summary>
     /// Collects received messages as events in format <see cref="InputDataHolder"/>.
-    /// Uses <see cref="UnityToolbag.Dispatcher"> for passing events to Unitys main thread.
+    /// Uses <see cref="UnityToolbag.Dispatcher"/> for passing events to Unitys main thread.
     /// Offers static methods for registering and unregistering event handlers.
     /// </summary>
     public class NetworkEventDispatcher
@@ -71,7 +71,7 @@ namespace UnityWebRTCCOntrol.Network
         }
 
         /// <summary>
-        /// This method is called from a WebRTC thread from <see cref="UWCController">. 
+        /// This method is called from a WebRTC thread from <see cref="UWCController"/>. 
         /// Uses <see cref="UnityToolbag.Dispatcher.InvokeAsync()"/> 
         /// to wait for Unitys main thread to be ready before posting events.
         /// </summary>

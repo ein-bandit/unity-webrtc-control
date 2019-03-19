@@ -1,4 +1,4 @@
-namespace UnityWebRTCCOntrol.Network.Data
+namespace UnityWebRTCControl.Network.Data
 {
     /// <summary>
     /// Identifies which type of message was received.

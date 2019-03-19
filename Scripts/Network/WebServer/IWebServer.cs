@@ -1,4 +1,4 @@
-﻿namespace UnityWebRTCCOntrol.Network.WebServer
+﻿namespace UnityWebRTCControl.Network.WebServer
 {
     /// <summary>
     /// Interface for using a WebServer with UWCController.

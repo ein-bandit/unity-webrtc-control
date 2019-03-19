@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityWebRTCCOntrol.Network;
-using UnityWebRTCCOntrol.Network.Data;
-using UnityWebRTCCOntrol.Network.WebRTC;
-using UnityWebRTCCOntrol.Network.WebServer;
+using UnityWebRTCControl.Network;
+using UnityWebRTCControl.Network.Data;
+using UnityWebRTCControl.Network.WebRTC;
+using UnityWebRTCControl.Network.WebServer;
 
-namespace UnityWebRTCCOntrol
+namespace UnityWebRTCControl
 {
     /// <summary>
-    /// Abstract Initializer as Unity singleton holding adjustable parameters for setting up the servers.
-    /// Offering a <see cref="Initialize()"/> method for setup and cleans initiates application cleanup 
-    /// (triggers IWebServer and IWebRTCServer clean up) on Unity application quit.
+    /// Abstract Initializer as Unity singleton holding adjustable parameters for setting up default servers.
+    /// Offering a <see cref="InitializeUWC()"/> method for setup and initiates application cleanup 
+    /// on Unity application quit.
     /// </summary>
     public abstract class AbstractUWCInitializer : MonoBehaviour
     {
@@ -27,7 +27,8 @@ namespace UnityWebRTCCOntrol
         private IWebRTCServer webRTCServer;
 
         private static AbstractUWCInitializer instance = null;
-        void Awake()
+
+        private void Awake()
         {
             if (instance == null)
             {
@@ -40,6 +41,13 @@ namespace UnityWebRTCCOntrol
             }
         }
 
+        /// <summary>
+        /// Initializes <see cref="UWCController"/>  with passed references.
+        /// If server implementations are omitted, default servers will be set up.
+        /// </summary>
+        /// <param name="networkDataInterpreter">Network data interpreter as implementation of <see cref="INetworkDataInterpreter"/>.</param>
+        /// <param name="webserver">Web server as implementation of <see cref="IWebServer"/>.</param>
+        /// <param name="webRTCServer">WebRTC server as implementation of <see cref="IWebRTCServer"/>.</param>
         protected void InitializeUWC(
             INetworkDataInterpreter networkDataInterpreter,
             IWebServer webserver = null,
@@ -57,7 +65,7 @@ namespace UnityWebRTCCOntrol
                 webRTCServer = new WebRTCServer(webRTCServerPort);
             }
 
-            UWCController.Instance.Initialize(webServer, webRTCServer, networkDataInterpreter);
+            UWCController.Instance.Initialize(this.webServer, this.webRTCServer, networkDataInterpreter);
         }
 
         private string GetFullPath(string relativePath)
