@@ -2,11 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Unity-WebRTC-Control Sample Index</title>
-    <meta name="description" content="UWC sample index file
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-    />
+    <title>Unity-WebRTC-Control Sample Interface</title>
+    <meta name="description" content="UWC sample index file name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1,
+    user-scalable=0" />
     <style>
       body {
         background: darkgrey;
@@ -47,6 +46,14 @@
       .hidden {
         display: none;
       }
+      #debug {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 20%;
+        background: yellow;
+        opacity: 0.75;
+      }
       #logger {
         position: absolute;
         bottom: 0;
@@ -67,7 +74,9 @@
 
   <body>
     <div class="uwc-sample">
-      <p>Hi there!<br />Ready to create your own Unity-WebRTC-Control interface ?</p>
+      <p>
+        Hi there!<br />Ready to create your own Unity-WebRTC-Control interface ?
+      </p>
 
       <div id="connect-btn">
         test connection
@@ -76,38 +85,13 @@
       <div id="receiver">no message received yet.</div>
     </div>
 
+    <div id="debug" class="hidden"></div>
     <div id="feature-area"></div>
     <div id="logger" class="hidden"></div>
 
-    <script src="config.js"></script>
-
-    <script src="NoSleep.js"></script>
-    <script src="adapter.js"></script>
-    <script src="webrtc.js"></script>
-    <script src="ice-services.js"></script>
-    <script src="feature-detection.js"></script>
-    <script src="console-to-div.js"></script>
-    <script src="unity-webrtc-control.js"></script>
-    <script>
-      var connectBtn = document.getElementById("connect-btn");
-      var receiver = document.getElementById("receiver");
-      var testarea = document.getElementById("test-area");
-
-      connectBtn.onclick = function() {
-        uwc.connectClient();
-        connectBtn.classList.add("tapped");
-        setTimeout(() => {
-          connectBtn.classList.remove("tapped");
-        }, 250);
-      };
-      //when connection is successfully established, enable test area to send message.
-      clientActions.initialize = function() {
-        testarea.classList.remove("hidden");
-      };
-      //when a message is retrieved print it on screen.
-      clientActions.onMessage = function(message) {
-        receiver.innerHTML = JSON.stringify(message);
-      };
-    </script>
+    <script type="module" src="uwc-initializer.js"></script>
+    <!--place your non-es6 script here and defer it's execution
+      <script defer src="myscript.js"></script>
+    -->
   </body>
 </html>

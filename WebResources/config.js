@@ -1,20 +1,26 @@
-//define which browser apis should be enabled and used to stream data.
+/*! conifg.js (default configuration)
+ *
+ * author: ein-bandit <github.com/ein-bandit>
+ * Licensed under GPL 3.0 */
 
+//define which browser apis should be enabled and used to stream data.
 const config = {
-  serverPort: 8880,
+  serverPort: 7770,
   features: {
-    tapDetection: {
-      enabled: true,
-      areas: {
-        test: "test-area"
-      }
-    },
-    vibrate: { enabled: true }, //just referenced to show message as detected feature.
-    deviceOrientation: { enabled: false },
-    deviceProximity: { enabled: false },
-    deviceMotion: { enabled: false },
-    deviceLight: { enabled: false }
-  }
+    tapDetection: ["test-area"],
+    vibration: true,
+    deviceOrientation: false,
+    deviceProximity: false,
+    deviceMotion: false,
+    deviceLight: false
+  },
+  customFeatureHandlers: {
+    deviceLight: evt => {
+      console.log("deviceLight event received", evt);
+    }
+  },
+  exposeToWindow: true,
+  debug: true
 };
 
-const debug = false;
+export default config;
