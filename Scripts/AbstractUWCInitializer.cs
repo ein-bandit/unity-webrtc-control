@@ -55,14 +55,14 @@ namespace UnityWebRTCControl
         {
             if (webserver == null)
             {
-                webServer = new SimpleHTTPServer(
+                this.webServer = new SimpleHTTPServer(
                     GetFullPath(webResourcesFolder),
                     GetFullPath(standardResourcesFolder),
                     httpServerPort);
             }
             if (webRTCServer == null)
             {
-                webRTCServer = new WebRTCServer(webRTCServerPort);
+                this.webRTCServer = new WebRTCServer(webRTCServerPort);
             }
 
             UWCController.Instance.Initialize(this.webServer, this.webRTCServer, networkDataInterpreter);
