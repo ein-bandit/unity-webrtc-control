@@ -15,11 +15,11 @@ eventDispatcher.on("features.vibrate", duration => {
 
 const featureAvailability = {
   tapDetection: true,
-  vibration: navigator.vibrate,
-  deviceOrientation: window.DeviceOrientationEvent, //consider using gyronorm
-  deviceProximity: "ondeviceproximity" in window,
-  deviceMotion: window.DeviceMotionEvent,
-  deviceLight: "ondevicelight" in window
+  vibration: typeof navigator.vibrate !== "undefined",
+  deviceOrientation: typeof window.DeviceOrientationEvent !== "undefined", //consider using gyronorm
+  deviceProximity: "ondeviceproximity" in window, //only supported in FF
+  deviceMotion: typeof window.DeviceMotionEvent !== "undefined",
+  deviceLight: "ondevicelight" in window //no chrome.
 };
 
 const featureHandlers = {
@@ -104,7 +104,7 @@ const unregisterFeatures = () => {
 const registrationFunction = (featureName, isRegister) => {
   var element = featureName.includes("click") ? getTapId(featureName) : window;
   element[isRegister === true ? "addEventListener" : "removeEventListener"](
-    featureName.split("#")[0], //first part until # sign (click#click-id) or all of string.
+    featureName.split("#")[0].toLowerCase(), //first part up to # sign (click#click-id) or all of string.
     featureName.includes("click")
       ? featureHandlers["tapDetection"]
       : featureHandlers[featureName]
@@ -113,7 +113,11 @@ const registrationFunction = (featureName, isRegister) => {
 
 const handleFeatureRegistering = register => {
   for (var prop in config.features) {
-    if (config.features.hasOwnProperty(prop)) {
+    if (
+      config.features.hasOwnProperty(prop) &&
+      config.features[prop] !== false &&
+      featureAvailability[prop] === true
+    ) {
       //if taps shall be registered, iterate over the given ids, else register directly.
       if (prop === "tapDetection") {
         for (var index in config.features[prop]) {

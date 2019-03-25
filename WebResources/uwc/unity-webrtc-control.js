@@ -3,11 +3,11 @@
  * author: ein-bandit <github.com/ein-bandit>
  * Licensed under GPL 3.0 */
 
-import WebRTC from "./webrtc.js";
-import StaticEventDispatcher from "./static-event-dispatcher.js";
-import * as featureDetection from "./feature-detection.js";
-import * as ConsoleLogger from "./console-to-div.js";
 import config from "./../config.js";
+import * as ConsoleLogger from "./console-to-div.js";
+import * as featureDetection from "./feature-detection.js";
+import StaticEventDispatcher from "./static-event-dispatcher.js";
+import WebRTC from "./webrtc.js";
 
 const _connect = Symbol("connect");
 const _send = Symbol("send");
@@ -19,25 +19,23 @@ const _convertToBytes = Symbol("convertToBytes");
 const debugElement = document.getElementById("debug");
 if (config.debug) {
   debugElement.classList.remove("hidden");
+  ConsoleLogger.logToDiv();
 }
 
 class UWC {
-  webRTC = new WebRTC();
-  eventDispatcher = new StaticEventDispatcher();
-
-  serverAddress = null;
-  sendMode = null;
-
-  connecting = false;
-  connected = false;
-  sendingEnabled = false;
-
   constructor() {
-    this.sendMode = config.sendMode == "bytes" ? "bytes" : "string";
+    this.webRTC = new WebRTC();
+    this.eventDispatcher = new StaticEventDispatcher();
 
-    if (config.debug) {
-      ConsoleLogger.logToDiv();
-    }
+    this.serverAddress = null;
+    this.sendMode = null;
+
+    this.connecting = false;
+    this.connected = false;
+    this.sendingEnabled = false;
+
+    this.sendMode = config.sendMode === "string" ? "string" : "bytes";
+
     if (config.exposeToWindow === true) {
       window.uwc = {
         config: config,

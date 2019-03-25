@@ -51,16 +51,16 @@ const _handleRTCMessage = Symbol("handleRTCMessage");
 const _cleanUpWebRTC = Symbol("cleanUpWebRTC");
 
 class WebRTC {
-  rTCPeerConnection = null;
-  dataChannel = null;
+  constructor() {
+    this.rTCPeerConnection = null;
+    this.dataChannel = null;
 
-  socket = null;
-  remoteIce = [];
-  localIce = [];
+    this.socket = null;
+    this.remoteIce = [];
+    this.localIce = [];
 
-  eventDispatcher = new StaticEventDispatcher();
-
-  constructor() {}
+    this.eventDispatcher = new StaticEventDispatcher();
+  }
 
   connect(serverAddress) {
     this[_createWebSocket](serverAddress);

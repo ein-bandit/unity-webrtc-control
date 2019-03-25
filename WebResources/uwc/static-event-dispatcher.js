@@ -8,8 +8,6 @@ import EventDispatcher from "./../lib/event-dispatcher.js";
 var _instance = null;
 
 class StaticEventDispatcher {
-  baseEventDispatcher = null;
-
   constructor() {
     if (_instance) {
       return _instance;
