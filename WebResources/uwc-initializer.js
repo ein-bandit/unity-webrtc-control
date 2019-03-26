@@ -9,15 +9,16 @@ import StaticEventDispatcher from "./uwc/static-event-dispatcher";
 const uwc = new UWC();
 const eventDispatcher = new StaticEventDispatcher();
 
-var connectBtn = document.getElementById("connect-btn");
-var receiver = document.getElementById("receiver");
-var testarea = document.getElementById("test-area");
+const connectBtn = document.getElementById("connect-btn");
+const receiver = document.getElementById("receiver");
+const testarea = document.getElementById("test-area");
 
 eventDispatcher.on("uwc.initialized", () => {
   testarea.classList.remove("hidden");
   //vibrate 100ms when connected.
   eventDispatcher.emit("features.vibrate", 100);
 });
+
 eventDispatcher.on("uwc.message", data => {
   receiver.innerHTML = JSON.stringify(message);
 });
