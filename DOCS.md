@@ -8,17 +8,17 @@ Included in this pacakage is a HTTP weberver, a WebRTC server (including a Webso
 
 Webclients and the WebRTC implementation will negotiate about the connection parameters and, if this process finishes successfully, a peer to peer connection is set up.
 
-Want to learn more about WebRTC and it's capabilities? Check the [HTML5Rocks](html5rocks-intro) article.
+Want to learn more about WebRTC and it's capabilities? Check the [HTML5Rocks][html5rocks-intro] article.
 
 ## How to use it
 
-As mentioned in the [README](readme-link) include this package in your Unity applications Asset folder.
+As mentioned in the [README][readme-link] include this package in your Unity applications Asset folder.
 
 Furthermore you'll have to prepare the backend (= Unity side of WebRTC communication) as follows:
 
 - Create a message interpreter by implementing the `INetworkDataInterpreter` interface and pass it to the plugins static UWCController instance.
 
-You can get some inspiration from the demo projects [NetworkDataInterpreter](ndi-impl) implementation inside the demo project.
+You can get some inspiration from the demo projects [NetworkDataInterpreter][ndi-impl] implementation inside the demo project.
 
 Extend the `AbstractUWCInitializer` which offers to use the included `SimpleHTTPServer` as well as the default `WebRTCServer` implementation.
 
@@ -37,13 +37,13 @@ class YourUWCInitializer : AbstractUWCInitializer {
 
 Add your custom implementation of the initializer together with the `Dispatcher` script (located in `Unity-WebRTC-Control/Scripts/Network`) to a GameObject and put it to your starting scene. Your Initializer will act as a Unity Singleton (DontDestroyOnLoad) inherited from `AbstractUWCInitializer`.
 
-- In your game/application register handlers on UWCController.Instance to receive messages inside your application. Use UWCController.Instance.SendMessage to distribute data to the web clients. (You can have a look in the [demo project](triangler-mwc)s `PlayerManager` script on how to register the handlers.
+- In your game/application register handlers on UWCController.Instance to receive messages inside your application. Use UWCController.Instance.SendMessage to distribute data to the web clients. (You can have a look in the [demo project][triangler-mwc]s `PlayerManager` script on how to register the handlers.
 
 For the frontend (web interface) you will need to create following resources:
 
 - In Unitys `Assets` directory create a folder for your local WebResources and add a HTML controller interface named `index.html`, as well as a JavaScript configuration file `config.js` to it.
-  Either copy the `uwc-initializer.js` file to your local resources and adapt it accordingly to handle WebRTC connection setup. Or use a HTML script tag with type="module" for initialization. (See [README](readme-link) for instructions)
-  Further information on configuring the frontend can be found in the [Extend Frontend]() section.
+  Either copy the `uwc-initializer.js` file to your local resources and adapt it accordingly to handle WebRTC connection setup. Or use a HTML script tag with type="module" for initialization. (See [README][readme-link] for instructions)
+  Further information on configuring the frontend can be found in the [Extend Frontend][extend-frontend] section.
 
 ## Advanced Usage
 
@@ -135,9 +135,9 @@ import {availableFeatures} from './uwc/feature-detection.js';
 console.log(availableFeatures);
 ```
 
-In the [demo project](triangler-mwc) this object is used in `controller-logic.js` to print available sensors to the UI.
+In the [demo project][triangler-mwc] this object is used in `controller-logic.js` to print available sensors to the UI.
 
-A special case is the `vibration` property. To trigger a device vibration, emit a event with the duration in milliseconds. (TODO: change this ot firing a custom event.)
+A special case is the `vibration` property. To trigger a device vibration, emit a event with the duration in milliseconds.
 
 ```JavaScript
     eventDispatcher.emit("features.vibrate", 150);
@@ -253,7 +253,7 @@ Internally a WebSocket, using the Fleck WebSockets for C# library, starts a thre
 For each established connection a seperate thread is started.
 Received messages are passed from the WebRTC callbacks to the static UWCController inteface.
 
-For debugging and troubleshooting tips also see the [Troubleshooting](troubleshooting) section.
+For debugging and troubleshooting tips also see the [Troubleshooting][troubleshooting] section.
 
 From the above mentioned radioman webrtc solution, the javascript frontend implementation acted as a base for the web frontend communication mechanism.
 
@@ -295,7 +295,7 @@ Dispatcher.InvokeAsync(() => {
 });
 ```
 
-For debugging tips helping with finding problems in your web interface can be found in the [Extend Frontend](extend-frontend) section.
+For debugging tips helping with finding problems in your web interface can be found in the [Extend Frontend][extend-frontend] section.
 
 If you are missing the .dll files in your remote repository, also check your global git ignore file, which may blacklist .dll libraries.
 
