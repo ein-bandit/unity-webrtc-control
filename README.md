@@ -54,7 +54,7 @@ ES6 frontend functionality is limited to Chrome and Opera browser currently.
 
 ## Documentation
 
-Have a look at the [documentation][documentation-debug] for debugging tips and how to handle common issues.
+Have a look at the [documentation][documentation-link] for indepth implementation details, debugging tips and information on how to handle common issues.
 
 # Support
 
@@ -67,5 +67,4 @@ GPL 3.0
 **_Free Software, Hell Yeah!_**
 
 [documentation-link]: https://github.com/ein-bandit/unity-webrtc-control/blob/master/DOCS.md
-[documentation-debug]: https://github.com/ein-bandit/unity-webrtc-control/blob/master/DOCS.md#Troubleshooting
 [triangler-mwc]: https://github.com/ein-bandit/triangler-mwc

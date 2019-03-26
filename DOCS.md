@@ -249,11 +249,11 @@ Internally a thread for serving requests is fired up and the web server exposes 
 
 Based on radiomans [WebRTC.net](https://github.com/radioman/WebRtc.NET) implementation this class handles the negotiation for the webrtc connection between the Unity application and a web browser. Furthermore it is responsible for retrieving and sending messages via the WebRTC protocol.
 By default the JavaScript side makes the offer and requests opening of necessary data channels.
-Internally a WebSocket, using the Fleck WebSockets for C# library, starts a thread, whic is responsible for the signaling process, determining the suitable methods and parameters for establishing a connection to the web browser.
-For each established connection a seperate thread is started.
-Received messages are passed from the WebRTC callbacks to the static UWCController inteface.
+Internally a WebSocket, using the Fleck WebSockets for C# library, starts a thread, which is responsible for the signaling process, determining the suitable methods and parameters for establishing a connection to the web browser.
+Each established connection starts up a seperate thread.
+Received messages are passed from the WebRTC callbacks to the static UWCController interface.
 
-For debugging and troubleshooting tips also see the [Troubleshooting][troubleshooting] section.
+For debugging and troubleshooting tips see the [Troubleshooting][troubleshooting] section.
 
 From the above mentioned radioman webrtc solution, the javascript frontend implementation acted as a base for the web frontend communication mechanism.
 
@@ -295,7 +295,7 @@ Dispatcher.InvokeAsync(() => {
 });
 ```
 
-For debugging tips helping with finding problems in your web interface can be found in the [Extend Frontend][extend-frontend] section.
+For debugging tips and help on finding problems in your web interface refer to the [Extend Frontend][extend-frontend] section.
 
 If you are missing the .dll files in your remote repository, also check your global git ignore file, which may blacklist .dll libraries.
 
@@ -316,5 +316,5 @@ Webfrontend:
 [readme-link]: https://github.com/ein-bandit/unity-webrtc-control
 [triangler-mwc]: https://github.com/ein-bandit/triangler-mwc
 [ndi-impl]: https://github.com/ein-bandit/triangler-mwc/blob/master/Assets/Scripts/Network/NetworkDataInterpreter.cs
-[extend-frontend]: https://github.com/ein-bandit/unity-webrtc-control/blob/master/DOCS.md#ExtendFrontend
-[troubleshooting]: https://github.com/ein-bandit/unity-webrtc-control/blob/master/DOCS.md#Troubleshooting
+[extend-frontend]: https://github.com/ein-bandit/unity-webrtc-control/blob/master/DOCS.md#extend-frontend
+[troubleshooting]: https://github.com/ein-bandit/unity-webrtc-control/blob/master/DOCS.md#troubleshooting
