@@ -60,7 +60,10 @@ namespace UnityWebRTCControl.QRCode
                 Options = new QrCodeEncodingOptions
                 {
                     Height = height,
-                    Width = width
+                    Width = width,
+                    Margin = 0,
+                    DisableECI = true
+
                 }
             };
             return writer.Write(textForEncoding);
